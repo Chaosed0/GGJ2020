@@ -4,7 +4,7 @@ using System.IO;
 
 public class MetaLoadUtil
 {
-    public const string EditorTestPath = "TestAssets/TestingDirectory/";
+    public const string EditorTestPath = "TestAssets/Dirty/";
 
     public static string GetPath(string path)
     {
