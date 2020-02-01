@@ -22,9 +22,13 @@ public class MoveEnemy : MonoBehaviour
     // get to take their turn to perform an action.
     public void PerformAction()
     {
-        GameObject playerObject = GameObject.Find("Player");
-        // player.TryMove(Direction.Up);
+        Status status = this.gameObject.GetComponent<Status>();
+        if (status.isDead())
+        {
+            return;
+        }
 
+        GameObject playerObject = GameObject.Find("Player");
         if(playerObject == null)
         {
             return;
@@ -38,14 +42,14 @@ public class MoveEnemy : MonoBehaviour
         {
             player.TryMove(Direction.Right);
         }
-        // else if(playerObject.transform.position.y < this.transform.position.y)
-        // {
-        //     player.TryMove(Direction.Down);
-        // }
-        // else if(playerObject.transform.position.y > this.transform.position.y)
-        // {
-        //     player.TryMove(Direction.Up);
-        // }
+        else if(playerObject.transform.position.y < this.transform.position.y)
+        {
+            player.TryMove(Direction.Down);
+        }
+        else if(playerObject.transform.position.y > this.transform.position.y)
+        {
+            player.TryMove(Direction.Up);
+        }
 
         // TODO: Check if player is in their room
         // TODO: Deal damage to the player on collision
