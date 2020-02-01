@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
+using System.Collections.Generic;
 
 public enum Direction
 {
@@ -34,15 +34,21 @@ public class Player : MonoBehaviour
         return Vector2.zero;
     }
 
+    ContactFilter2D contactFilter;
+    List<RaycastHit2D> raycastHits = new List<RaycastHit2D>();
     public bool TryMove(Direction direction)
     {
+        contactFilter.NoFilter();
+        contactFilter.useTriggers = false;
+        contactFilter.SetLayerMask(~LayerMask.GetMask(maskLabel));
+
         var vector = DirectionToVector(direction);
-        var hit = Physics2D.Raycast(this.transform.position, vector, 1f, ~LayerMask.GetMask(maskLabel));
+        var hitCount = Physics2D.Raycast(this.transform.position, vector, contactFilter, raycastHits, 1f);
 
         var oldPosition = this.transform.position;
         var newPosition = this.transform.position + Util.three(vector);
 
-        if (hit.collider == null)
+        if (hitCount <= 0)
         {
             this.transform.position = newPosition;
             OnPositionChanged?.Invoke(oldPosition, newPosition);
@@ -50,6 +56,8 @@ public class Player : MonoBehaviour
         }
         else
         {
+            var hit = raycastHits[0];
+
             if (maskLabel == "Player" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 Status playerStatus = hit.collider.gameObject.GetComponent<Status>();
