@@ -45,23 +45,30 @@ public class MovePlayer : MonoBehaviour
     {
         if (this.upKey != null && Input.GetKeyDown(this.upKey))
         {
-            Debug.Log(this.upKey);
             this.transform.position += Vector3.up;
+            PingEnemeyToPerformAction();
         }
         if (this.downKey != null && Input.GetKeyDown(this.downKey))
         {
-            Debug.Log(this.downKey);
             this.transform.position += Vector3.down;
+            PingEnemeyToPerformAction();
         }
         if (this.leftKey != null && Input.GetKeyDown(this.leftKey))
         {
-            Debug.Log(this.leftKey);
             this.transform.position += Vector3.left;
+            PingEnemeyToPerformAction();
         }
         if (this.rightKey != null && Input.GetKeyDown(this.rightKey))
         {
-            Debug.Log(this.rightKey);
             this.transform.position += Vector3.right;
+            PingEnemeyToPerformAction();
         }
+    }
+
+    private void PingEnemeyToPerformAction()
+    {
+        GameObject enemyobject = GameObject.Find("Enemy");
+        MoveEnemy enemyscript = enemyobject.GetComponent<MoveEnemy>();
+        enemyscript.PerformAction();
     }
 }
