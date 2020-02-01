@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
+    [SerializeField]
+    private Player player = null;
+
     private const string keyBindingPath = "Data/keys.data";
 
-    private string upKey = null;
-    private string leftKey = null;
-    private string rightKey = null;
-    private string downKey = null;
+    private KeyCode upKey = KeyCode.None;
+    private KeyCode leftKey = KeyCode.None;
+    private KeyCode rightKey = KeyCode.None;
+    private KeyCode downKey = KeyCode.None;
+
+    private void OnValidate()
+    {
+        this.Autofill(ref player, true);
+    }
 
     void Start()
     {
@@ -26,41 +34,58 @@ public class MovePlayer : MonoBehaviour
             return;
         }
 
-        MapKey(keyBindings, "up", out upKey);
-        MapKey(keyBindings, "down", out downKey);
-        MapKey(keyBindings, "left", out leftKey);
-        MapKey(keyBindings, "right", out rightKey);
+        upKey = MapKey(keyBindings, "up");
+        downKey = MapKey(keyBindings, "down");
+        leftKey = MapKey(keyBindings, "left");
+        rightKey = MapKey(keyBindings, "right");
     }
 
-    private void MapKey(Dictionary<string, string> map, string key, out string value)
+    private KeyCode MapKey(Dictionary<string, string> map, string key)
     {
-        if (!map.TryGetValue(key, out value))
+        string strValue;
+        if (!map.TryGetValue(key, out strValue))
         {
             Debug.LogError($"Key '{key}' not found in keys.data!");
+            return KeyCode.None;
         }
+
+        int intValue;
+        if (!int.TryParse(strValue, out intValue))
+        {
+            Debug.LogError($"Value for key '{key}' is not an integer!");
+            return KeyCode.None;
+        }
+
+        if (!System.Enum.IsDefined(typeof(KeyCode), intValue))
+        {
+            Debug.LogError($"Value {intValue} for key '{key}' is not a valid KeyCode!");
+            return KeyCode.None;
+        }
+
+        return (KeyCode)intValue;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (this.upKey != null && Input.GetKeyDown(this.upKey))
+        if (this.upKey != KeyCode.None && Input.GetKeyDown(this.upKey))
         {
-            this.transform.position += Vector3.up;
+            player.TryMove(Direction.Up);
             PingEnemeyToPerformAction();
         }
-        if (this.downKey != null && Input.GetKeyDown(this.downKey))
+        if (this.downKey != KeyCode.None && Input.GetKeyDown(this.downKey))
         {
-            this.transform.position += Vector3.down;
+            player.TryMove(Direction.Down);
             PingEnemeyToPerformAction();
         }
-        if (this.leftKey != null && Input.GetKeyDown(this.leftKey))
+        if (this.leftKey != KeyCode.None && Input.GetKeyDown(this.leftKey))
         {
-            this.transform.position += Vector3.left;
+            player.TryMove(Direction.Left);
             PingEnemeyToPerformAction();
         }
-        if (this.rightKey != null && Input.GetKeyDown(this.rightKey))
+        if (this.rightKey != KeyCode.None && Input.GetKeyDown(this.rightKey))
         {
-            this.transform.position += Vector3.right;
+            player.TryMove(Direction.Right);
             PingEnemeyToPerformAction();
         }
     }
