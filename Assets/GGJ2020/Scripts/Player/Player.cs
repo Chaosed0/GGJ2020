@@ -62,13 +62,13 @@ public class Player : MonoBehaviour
             {
                 Status enemyStatus = GameObject.Find("Enemy").GetComponent<Status>();
                 Status playerStatus = GameObject.Find("Player").GetComponent<Status>();
-                playerStatus.takeDamage(1); // TODO: Read this from somewhere!!
+                playerStatus.takeDamageFrom(enemyStatus);
             }
             if (maskLabel == "Player" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                // Status playerStatus = GameObject.Find("Player").GetComponent<Status>();
+                Status playerStatus = GameObject.Find("Player").GetComponent<Status>();
                 Status enemyStatus = GameObject.Find("Enemy").GetComponent<Status>();
-                enemyStatus.takeDamage(1); // TODO: Read this from somewhere!
+                enemyStatus.takeDamageFrom(playerStatus);
             }
 
             OnPositionRejected?.Invoke(oldPosition, newPosition);

@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class Status : MonoBehaviour
 {
-    public int health = 5; // TODO: Read this from a file!
+    public string id; // matches both an object and a layer name.
 
-    public void takeDamage(int damage) {
+    private int health = 5; // TODO: Read this from a file!
+    private int attack = 1; // TODO: Read this from a file!
+    // TODO: You can put a bunch of other stats here like defense or critical chance just to obfuscate the files.
+
+    public void takeDamageFrom(Status attacker) {
+        if (this.health <= 0)
+        {
+            return;
+        }
+        var damage = attacker.attack;
         this.health -= damage;
-        Debug.Log("Took " + damage);
-        if(this.health <= 0) {
-            Debug.Log("Died");
+        Debug.Log(this.id + " took " + damage + " damage");
+        if (this.health <= 0)
+        {
+            Debug.Log(this.id + " died");
+            GameObject.Destroy(GameObject.Find(this.id));
         }
     }
 }

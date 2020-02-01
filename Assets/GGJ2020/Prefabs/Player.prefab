@@ -320,4 +320,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6e62476395f4636bd9bf0f598ff3f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  id: Player
