@@ -93,7 +93,10 @@ public class MovePlayer : MonoBehaviour
     private void PingEnemeyToPerformAction()
     {
         GameObject enemyobject = GameObject.Find("Enemy");
-        MoveEnemy enemyscript = enemyobject.GetComponent<MoveEnemy>();
-        enemyscript.PerformAction();
+        if (enemyobject != null)
+        {
+            MoveEnemy enemyscript = enemyobject.GetComponent<MoveEnemy>();
+            enemyscript.PerformAction();
+        }
     }
 }
