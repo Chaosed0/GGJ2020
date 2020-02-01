@@ -58,17 +58,21 @@ public class Player : MonoBehaviour
         {
             var hit = raycastHits[0];
 
-            if (maskLabel == "Player" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            if (maskLabel == "Enemy" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                Status playerStatus = hit.collider.gameObject.GetComponent<Status>();
-                playerStatus.takeDamage(1); // TODO: Read this from somewhere!!
+                Status enemyStatus = GameObject.Find("Enemy").GetComponent<Status>();
+                Status playerStatus = GameObject.Find("Player").GetComponent<Status>();
+                playerStatus.takeDamageFrom(enemyStatus);
             }
-            if (maskLabel == "Enemey" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            if (maskLabel == "Player" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Status enemyStatus = hit.collider.gameObject.GetComponent<Status>();
-                enemyStatus.takeDamage(1); // TODO: Read this from somewhere!
+                Status playerStatus = GameObject.Find("Player").GetComponent<Status>();
+                Status enemyStatus = GameObject.Find("Enemy").GetComponent<Status>();
+                enemyStatus.takeDamageFrom(playerStatus);
             }
+
             OnPositionRejected?.Invoke(oldPosition, newPosition);
+
             return false;
         }
     }
