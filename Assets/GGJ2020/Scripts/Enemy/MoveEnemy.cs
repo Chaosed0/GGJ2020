@@ -38,14 +38,14 @@ public class MoveEnemy : MonoBehaviour
         {
             player.TryMove(Direction.Right);
         }
-        else if(playerObject.transform.position.y < this.transform.position.y)
-        {
-            player.TryMove(Direction.Down);
-        }
-        else if(playerObject.transform.position.y > this.transform.position.y)
-        {
-            player.TryMove(Direction.Up);
-        }
+        // else if(playerObject.transform.position.y < this.transform.position.y)
+        // {
+        //     player.TryMove(Direction.Down);
+        // }
+        // else if(playerObject.transform.position.y > this.transform.position.y)
+        // {
+        //     player.TryMove(Direction.Up);
+        // }
 
         // TODO: Check if player is in their room
         // TODO: Deal damage to the player on collision
