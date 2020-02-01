@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public UnityAction<Vector3, Vector3> OnPositionChanged = null;
     public UnityAction<Vector3, Vector3> OnPositionRejected = null;
 
-    public string maskLabel;
+    public string maskLabel; // this should really just be named layer but whatever
 
     private Vector2 DirectionToVector(Direction direction)
     {
@@ -50,6 +50,16 @@ public class Player : MonoBehaviour
         }
         else
         {
+            if (maskLabel == "Player" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                Status playerStatus = hit.collider.gameObject.GetComponent<Status>();
+                playerStatus.takeDamage(1); // TODO: Read this from somewhere!!
+            }
+            if (maskLabel == "Enemey" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                Status enemyStatus = hit.collider.gameObject.GetComponent<Status>();
+                enemyStatus.takeDamage(1); // TODO: Read this from somewhere!
+            }
             OnPositionRejected?.Invoke(oldPosition, newPosition);
             return false;
         }

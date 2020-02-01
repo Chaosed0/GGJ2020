@@ -38,18 +38,17 @@ public class MoveEnemy : MonoBehaviour
         {
             player.TryMove(Direction.Right);
         }
-        // else if(playerObject.transform.position.y < this.transform.position.y)
-        // {
-        //     player.TryMove(Direction.Down);
-        // }
-        // else if(playerObject.transform.position.y > this.transform.position.y)
-        // {
-        //     player.TryMove(Direction.Up);
-        // }
+        else if(playerObject.transform.position.y < this.transform.position.y)
+        {
+            player.TryMove(Direction.Down);
+        }
+        else if(playerObject.transform.position.y > this.transform.position.y)
+        {
+            player.TryMove(Direction.Up);
+        }
 
         // TODO: Check if player is in their room
-        // TODO: Naively move towards the player
-        // TODO: Deal damage to the player
+        // TODO: Deal damage to the player on collision
         // TODO: Game over if the player has not enough health?
         // TODO: Let player kill enemy if they run into it
     }
