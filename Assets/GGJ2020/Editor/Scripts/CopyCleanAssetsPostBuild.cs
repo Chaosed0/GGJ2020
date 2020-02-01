@@ -15,12 +15,6 @@ public class CopyCleanAssetsPostBuild
         foreach (var sourceSubDirectory in new DirectoryInfo(sourceDirectory).GetDirectories())
         {
             var destSubDirectory = Path.Combine(destDirectory, sourceSubDirectory.Name);
-
-            if (Directory.Exists(destSubDirectory))
-            {
-                Directory.Delete(destSubDirectory, true);
-            }
-
             CopyDir.Copy(sourceSubDirectory.FullName, destSubDirectory);
         }
     }
@@ -44,7 +38,7 @@ class CopyDir
         foreach (FileInfo fi in source.GetFiles())
         {
             Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
-            fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+            fi.CopyTo(Path.Combine(target.FullName, fi.Name), false);
         }
 
         // Copy each subdirectory using recursion.
