@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Video;
 using System.IO;
+using UnityEngine.Diagnostics;
 
 public class WinCollider : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class WinCollider : MonoBehaviour
         {
             if (!Application.isEditor)
             {
-                Application.Quit();
+                Debug.LogError($"Video file not found in {videoPath}!");
+                Utils.ForceCrash(ForcedCrashCategory.Abort);
             }
             else
             {

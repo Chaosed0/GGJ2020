@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class MovePlayer : MonoBehaviour
 {
@@ -26,11 +27,13 @@ public class MovePlayer : MonoBehaviour
 
     private void LoadKeyBindings()
     {
-        Dictionary<string, string> keyBindings = KeyValueFormatParser.Parse(MetaLoadUtil.GetPath(keyBindingPath));
+        var path = MetaLoadUtil.GetPath(keyBindingPath);
+        Dictionary<string, string> keyBindings = KeyValueFormatParser.Parse(path);
 
         if (keyBindings == null)
         {
-            Debug.LogError("Key bindings file not found!");
+            var fullPath = Path.GetFullPath(path);
+            Debug.LogError($"Key bindings file not found at {fullPath}!");
             return;
         }
 
