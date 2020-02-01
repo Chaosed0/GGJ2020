@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class LoadSpriteFromDisk : MonoBehaviour
 {
-    private const string EditorTestPath = "TestAssets/TestingDirectory/";
-
     [SerializeField]
     private SpriteRenderer spriteRenderer = null;
 
@@ -22,12 +20,7 @@ public class LoadSpriteFromDisk : MonoBehaviour
 
     private void Awake()
     {
-        var path = this.path;
-        if (Application.isEditor)
-        {
-            path = Path.Combine(EditorTestPath, this.path);
-        }
-
+        var path = MetaLoadUtil.GetPath(this.path);
         if (File.Exists(path))
         {
             var fileData = File.ReadAllBytes(path);
