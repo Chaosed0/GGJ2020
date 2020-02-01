@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public UnityAction<Vector3, Vector3> OnPositionChanged = null;
     public UnityAction<Vector3, Vector3> OnPositionRejected = null;
 
+    public string maskLabel;
+
     private Vector2 DirectionToVector(Direction direction)
     {
         switch (direction)
@@ -35,7 +37,7 @@ public class Player : MonoBehaviour
     public bool TryMove(Direction direction)
     {
         var vector = DirectionToVector(direction);
-        var hit = Physics2D.Raycast(this.transform.position, vector, 1f);
+        var hit = Physics2D.Raycast(this.transform.position, vector, 1f, ~LayerMask.GetMask(maskLabel));
 
         var oldPosition = this.transform.position;
         var newPosition = this.transform.position + Util.three(vector);
