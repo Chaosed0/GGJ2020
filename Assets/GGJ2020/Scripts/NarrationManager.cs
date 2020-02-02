@@ -9,10 +9,21 @@ public class NarrationManager : MonoBehaviour
     public float introDelay = 1.0f;
 
     public AudioClip introClip;
+    public AudioClip keyBindClip;
 
     private Player player;
     private MovePlayer movePlayer;
     private Status playerStatus;
+
+    private bool keysCorrectlyBound;
+    private bool keyBindingPromptPlayed;
+
+    private int upAttempts;
+    private int leftAttempts;
+    private int rightAttempts;
+    private int downAttempts;
+
+    private bool logging = true;
 
     private void Start()
     {
@@ -34,19 +45,31 @@ public class NarrationManager : MonoBehaviour
 
         // Increment the number of times the game has been launched
         PlayerPrefs.SetInt("NumLaunches", PlayerPrefs.GetInt("NumLaunches", 0) + 1);
-        // Debug.Log($"Number of Launches: {PlayerPrefs.GetInt("NumLaunches", 0)}");
+        if (logging) Debug.Log($"Number of Launches: {PlayerPrefs.GetInt("NumLaunches", 0)}");
 
+        Util.ExecuteAfterTime(this, 0.02f, CheckKeyBindings);
         Util.ExecuteAfterTime(this, introDelay, PotentiallyPlayIntro);
     }
 
     private void Update()
     {
+        if (keysCorrectlyBound == false && keyBindingPromptPlayed == false)
+        {
+            CountMovementAttempts();
+
+            if (upAttempts + downAttempts >= 1)
+            {
+                Util.ExecuteAfterTime(this, 2.0f, PlayKeyBindingsPrompt);
+                keyBindingPromptPlayed = true;
+            }
+        }
+        
         // Hold down Tilde, then press and release the C button to clear PlayerPrefs
         if (Input.GetKey(KeyCode.BackQuote))
         {
             if (Input.GetKeyUp(KeyCode.C))
             {
-                // Debug.Log("Clearing Player Prefs...");
+                if (logging) Debug.Log("Clearing Player Prefs...");
                 PlayerPrefs.DeleteAll();
             }
         }
@@ -56,12 +79,22 @@ public class NarrationManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("NumLaunches", 0) <= 1)
         {
-            // Debug.Log("Playing Intro (if available)");
+            if (logging) Debug.Log("Playing Intro (if available)");
             if (introClip != null)
             {
                 narratorAudioSource.clip = introClip;
                 narratorAudioSource.Play();
             }
+        }
+    }
+
+    private void PlayKeyBindingsPrompt()
+    {
+        if (logging) Debug.Log("NarrationManager::PlayKeyBindingsPrompt()");
+        if (keyBindClip != null)
+        {
+            narratorAudioSource.clip = keyBindClip;
+            narratorAudioSource.Play();
         }
     }
 
@@ -78,5 +111,37 @@ public class NarrationManager : MonoBehaviour
     private void HandlePlayerDeath()
     {
 
+    }
+
+    private void CheckKeyBindings()
+    {
+        keysCorrectlyBound = movePlayer.AreKeysCorrectlyBound();
+    }
+
+    private void CountMovementAttempts()
+    {
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (logging) Debug.Log("Up Attempt");
+            upAttempts++;
+        }
+
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (logging) Debug.Log("Left Attempt");
+            leftAttempts++;
+        }
+
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (logging) Debug.Log("Down Attempt");
+            downAttempts++;
+        }
+
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (logging) Debug.Log("Right Attempt");
+            rightAttempts++;
+        }
     }
 }
