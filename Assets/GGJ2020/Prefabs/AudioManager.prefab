@@ -488,6 +488,7 @@ MonoBehaviour:
   entityStatsBrokenClip: {fileID: 8300000, guid: 823c297a5d994da4e8efc67e1c61287c,
     type: 3}
   gameCrashClip: {fileID: 8300000, guid: f6446052768db0345b7fe74c6eea9d8e, type: 3}
+  victoryClip: {fileID: 8300000, guid: 6d396cdd0fe5a9241a782ea84c816803, type: 3}
 --- !u!82 &7862892832367432407
 AudioSource:
   m_ObjectHideFlags: 0

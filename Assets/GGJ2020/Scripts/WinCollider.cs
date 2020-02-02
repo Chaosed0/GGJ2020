@@ -7,6 +7,7 @@ using UnityEngine.Diagnostics;
 public class WinCollider : MonoBehaviour
 {
     public UnityAction OnGameCrashed = null;
+    public UnityAction OnVictory = null;
 
     private const string videoLocation = "Assets/Victory.video";
     private const string crashDataLocation = "crash.log";
@@ -63,6 +64,8 @@ public class WinCollider : MonoBehaviour
             videoPlayer.Play();
 
             won = true;
+
+            OnVictory?.Invoke();
         }
     }
 }

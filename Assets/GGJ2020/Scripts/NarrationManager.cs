@@ -16,6 +16,7 @@ public class NarrationManager : MonoBehaviour
     public AudioClip tileSetBrokenClip;
     public AudioClip entityStatsBrokenClip;
     public AudioClip gameCrashClip;
+    public AudioClip victoryClip;
 
     private Player _player;
     private Player player
@@ -128,6 +129,7 @@ public class NarrationManager : MonoBehaviour
         if (flag != null)
         {
             flag.OnGameCrashed += HandleGameCrashed;
+            flag.OnVictory += HandleVictory;
         }
     }
 
@@ -241,9 +243,23 @@ public class NarrationManager : MonoBehaviour
         }
     }
 
+    private void PlayVictory()
+    {
+        if (victoryClip != null)
+        {
+            narratorAudioSource.clip = victoryClip;
+            narratorAudioSource.Play();
+        }
+    }
+
     private void HandleGameCrashed()
     {
         PlayGameCrashed();
+    }
+
+    private void HandleVictory()
+    {
+
     }
 
     private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition, Collider2D hitCollider)
