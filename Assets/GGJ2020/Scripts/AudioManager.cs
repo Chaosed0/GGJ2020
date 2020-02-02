@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -18,9 +19,44 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] enemyMove;
     public AudioClip[] enemyDeath;
 
-    private Player player;
-    private Player enemy;
-    private Status playerStatus;
+    private Player _player;
+    private Player player
+    {
+        get
+        {
+            if (_player == null)
+            {
+                _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
+            }
+            return _player;
+        }
+    }
+
+    private Status _playerStatus;
+    private Status playerStatus
+    {
+        get
+        {
+            if (_playerStatus == null)
+            {
+                _playerStatus = player.GetComponent<Status>();
+            }
+            return _playerStatus;
+        }
+    }
+
+    private Player _enemy;
+    private Player enemy
+    {
+        get
+        {
+            if (_enemy == null)
+            {
+                _enemy = GameObject.FindGameObjectWithTag("Enemy")?.GetComponent<Player>();
+            }
+            return _enemy;
+        }
+    }
 
     private System.Random rand;
 
@@ -32,7 +68,8 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Destroy(this);
+            Destroy(this.gameObject);
+            return;
         }
 
         rand = new System.Random();
@@ -42,21 +79,25 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        SubscribeToEvents();
 
+        // We only have one level, so no need to specify which one
+        SceneManager.sceneLoaded += (x, y) => { SubscribeToEvents(); };
+    }
+
+    private void SubscribeToEvents()
+    {
         if (player != null)
         {
             player.OnPositionChanged += HandlePositionChanged;
             player.OnPositionRejected += HandlePositionRejected;
 
-            playerStatus = player.GetComponent<Status>();
             if (playerStatus != null)
             {
                 playerStatus.OnDead += HandlePlayerDeath;
             }
         }
 
-        enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Player>();
         if (enemy != null)
         {
             enemy.OnPositionChanged += HandleEnemyPositionChanged;
@@ -107,7 +148,6 @@ public class AudioManager : MonoBehaviour
             player.OnPositionChanged -= HandlePositionChanged;
             player.OnPositionRejected -= HandlePositionRejected;
 
-            playerStatus = player.GetComponent<Status>();
             if (playerStatus != null)
             {
                 playerStatus.OnDead -= HandlePlayerDeath;

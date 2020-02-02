@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class NarrationManager : MonoBehaviour
 {
@@ -14,11 +15,72 @@ public class NarrationManager : MonoBehaviour
     [FormerlySerializedAs("tileSetClip")]
     public AudioClip tileSetBrokenClip;
     public AudioClip entityStatsBrokenClip;
+    public AudioClip gameCrashClip;
 
-    private Player player;
-    private MovePlayer movePlayer;
-    private Status playerStatus;
-    private Status enemyStatus;
+    private Player _player;
+    private Player player
+    {
+        get
+        {
+            if (_player == null)
+            {
+                _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
+            }
+            return _player;
+        }
+    }
+
+    private MovePlayer _movePlayer;
+    private MovePlayer movePlayer
+    {
+        get
+        {
+            if (_movePlayer == null)
+            {
+                _movePlayer = player.GetComponent<MovePlayer>();
+            }
+            return _movePlayer;
+        }
+    }
+
+    private Status _playerStatus;
+    private Status playerStatus
+    {
+        get
+        {
+            if (_playerStatus == null)
+            {
+                _playerStatus = player.GetComponent<Status>();
+            }
+            return _playerStatus;
+        }
+    }
+
+    private Status _enemyStatus;
+    private Status enemyStatus
+    {
+        get
+        {
+            if (_enemyStatus == null)
+            {
+                _enemyStatus = GameObject.FindGameObjectWithTag("Enemy")?.GetComponent<Status>();
+            }
+            return _enemyStatus;
+        }
+    }
+
+    private WinCollider _flag;
+    private WinCollider flag
+    {
+        get
+        {
+            if (_flag == null)
+            {
+                _flag = GameObject.FindGameObjectWithTag("Flag")?.GetComponentInChildren<WinCollider>();
+            }
+            return _flag;
+        }
+    }
 
     private bool keyBindingsFixed;
     private bool keyBindingPromptPlayed;
@@ -38,23 +100,7 @@ public class NarrationManager : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-
-        if (player != null)
-        {
-            player.OnPositionChanged += HandlePositionChanged;
-            player.OnPositionRejected += HandlePositionRejected;
-
-            movePlayer = player.GetComponent<MovePlayer>();
-
-            playerStatus = player.GetComponent<Status>();
-            if (playerStatus != null)
-            {
-                playerStatus.OnDead += HandlePlayerDeath;
-            }
-        }
-
-        enemyStatus = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Status>();
+        SubscribeToEvents();
 
         // Increment the number of times the game has been launched
         PlayerPrefs.SetInt("NumLaunches", PlayerPrefs.GetInt("NumLaunches", 0) + 1);
@@ -62,6 +108,27 @@ public class NarrationManager : MonoBehaviour
 
         Util.ExecuteAfterTime(this, 0.02f, CheckPuzzleSolutions);
         Util.ExecuteAfterTime(this, 0.02f + narratorDelay, PotentiallyPlayIntro);
+
+        // We only have one level, so no need to specify which one
+        SceneManager.sceneLoaded += (x, y) => { SubscribeToEvents(); };
+    }
+
+    private void SubscribeToEvents()
+    {
+        if (player != null)
+        {
+            player.OnPositionRejected += HandlePositionRejected;
+
+            if (playerStatus != null)
+            {
+                playerStatus.OnDead += HandlePlayerDeath;
+            }
+        }
+
+        if (flag != null)
+        {
+            flag.OnGameCrashed += HandleGameCrashed;
+        }
     }
 
     private void Update()
@@ -165,16 +232,25 @@ public class NarrationManager : MonoBehaviour
         }
     }
 
-    private void HandlePositionChanged(Vector3 oldPosition, Vector3 newPosition)
+    private void PlayGameCrashed()
     {
+        if (gameCrashClip != null)
+        {
+            narratorAudioSource.clip = gameCrashClip;
+            narratorAudioSource.Play();
+        }
+    }
 
+    private void HandleGameCrashed()
+    {
+        PlayGameCrashed();
     }
 
     private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition, Collider2D hitCollider)
     {
         if (keyBindingsFixed == true)
         {
-            if (tileSetPromptPlayed == false)
+            if (tileSetFixed == false && tileSetPromptPlayed == false)
             {
                 if (LoadSpriteFromDisk.IsTransparent("Assets/Images/Wall.png") == true)
                 {
@@ -197,7 +273,7 @@ public class NarrationManager : MonoBehaviour
 
         if (keyBindingsFixed)
         {
-            if (tileSetFixed == false)
+            if (entityStatsFixed == false)
             {
                 if (entityStatsPromptPlayed == false)
                 {
