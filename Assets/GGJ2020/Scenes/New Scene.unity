@@ -5061,26 +5061,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3576519007353654683, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 3576519007353654683, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 3576519007353654683, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 85
-      objectReference: {fileID: 0}
-    - target: {fileID: 3576519007353654683, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -40
-      objectReference: {fileID: 0}
     - target: {fileID: 5621739457569504699, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5185,26 +5165,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5973788194485633204, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
-        type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5973788194485633204, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
-        type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1024
-      objectReference: {fileID: 0}
-    - target: {fileID: 5973788194485633204, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
-        type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 768
-      objectReference: {fileID: 0}
-    - target: {fileID: 8106595961235111739, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
-        type: 3}
-      propertyPath: m_FontData.m_FontSize
-      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 8903951352002578741, guid: 8fe762aafbb3fc34e85ae41a7e3a35c6,
         type: 3}

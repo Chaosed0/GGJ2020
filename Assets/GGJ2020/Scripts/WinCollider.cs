@@ -27,7 +27,8 @@ public class WinCollider : MonoBehaviour
         }
 
         var videoPath = MetaLoadUtil.GetPath(videoLocation);
-        if (!File.Exists(videoPath))
+        var fileInfo = new FileInfo(videoPath);
+        if (!fileInfo.Exists)
         {
             //tinyfd.tinyfd_beep();
             //tinyfd.tinyfd_messageBox("Error!", "Error!", "ok", "error", 1);
@@ -47,14 +48,14 @@ public class WinCollider : MonoBehaviour
             {
                 Debug.Log(message);
             }
-
-            return;
         }
+        else
+        {
+            var videoPlayer = Camera.main.GetComponent<VideoPlayer>();
+            videoPlayer.url = fileInfo.FullName;
+            videoPlayer.Play();
 
-        var videoPlayer = Camera.main.GetComponent<VideoPlayer>();
-        videoPlayer.url = videoPath;
-        videoPlayer.Play();
-
-        won = true;
+            won = true;
+        }
     }
 }
