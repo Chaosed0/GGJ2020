@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class AudioManager : MonoBehaviour
         {
             if (_player == null)
             {
-                _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
             }
             return _player;
         }
@@ -51,7 +52,7 @@ public class AudioManager : MonoBehaviour
         {
             if (_enemy == null)
             {
-                _enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Player>();
+                _enemy = GameObject.FindGameObjectWithTag("Enemy")?.GetComponent<Player>();
             }
             return _enemy;
         }
@@ -67,7 +68,8 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Destroy(this);
+            Destroy(this.gameObject);
+            return;
         }
 
         rand = new System.Random();
@@ -76,6 +78,14 @@ public class AudioManager : MonoBehaviour
     }
 
     private void Start()
+    {
+        SubscribeToEvents();
+
+        // We only have one level, so no need to specify which one
+        SceneManager.sceneLoaded += (x, y) => { SubscribeToEvents(); };
+    }
+
+    private void SubscribeToEvents()
     {
         if (player != null)
         {

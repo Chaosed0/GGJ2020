@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class NarrationManager : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class NarrationManager : MonoBehaviour
         {
             if (_player == null)
             {
-                _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
             }
             return _player;
         }
@@ -61,7 +62,7 @@ public class NarrationManager : MonoBehaviour
         {
             if (_enemyStatus == null)
             {
-                _enemyStatus = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Status>();
+                _enemyStatus = GameObject.FindGameObjectWithTag("Enemy")?.GetComponent<Status>();
             }
             return _enemyStatus;
         }
@@ -85,6 +86,21 @@ public class NarrationManager : MonoBehaviour
 
     private void Start()
     {
+        SubscribeToEvents();
+
+        // Increment the number of times the game has been launched
+        PlayerPrefs.SetInt("NumLaunches", PlayerPrefs.GetInt("NumLaunches", 0) + 1);
+        if (logging) Debug.Log($"Number of Launches: {PlayerPrefs.GetInt("NumLaunches", 0)}");
+
+        Util.ExecuteAfterTime(this, 0.02f, CheckPuzzleSolutions);
+        Util.ExecuteAfterTime(this, 0.02f + narratorDelay, PotentiallyPlayIntro);
+
+        // We only have one level, so no need to specify which one
+        SceneManager.sceneLoaded += (x, y) => { SubscribeToEvents(); };
+    }
+
+    private void SubscribeToEvents()
+    {
         if (player != null)
         {
             player.OnPositionChanged += HandlePositionChanged;
@@ -95,13 +111,6 @@ public class NarrationManager : MonoBehaviour
                 playerStatus.OnDead += HandlePlayerDeath;
             }
         }
-
-        // Increment the number of times the game has been launched
-        PlayerPrefs.SetInt("NumLaunches", PlayerPrefs.GetInt("NumLaunches", 0) + 1);
-        if (logging) Debug.Log($"Number of Launches: {PlayerPrefs.GetInt("NumLaunches", 0)}");
-
-        Util.ExecuteAfterTime(this, 0.02f, CheckPuzzleSolutions);
-        Util.ExecuteAfterTime(this, 0.02f + narratorDelay, PotentiallyPlayIntro);
     }
 
     private void Update()
@@ -214,7 +223,7 @@ public class NarrationManager : MonoBehaviour
     {
         if (keyBindingsFixed == true)
         {
-            if (tileSetPromptPlayed == false)
+            if (tileSetFixed == false && tileSetPromptPlayed == false)
             {
                 if (LoadSpriteFromDisk.IsTransparent("Assets/Images/Wall.png") == true)
                 {
@@ -237,7 +246,7 @@ public class NarrationManager : MonoBehaviour
 
         if (keyBindingsFixed)
         {
-            if (tileSetFixed == false)
+            if (entityStatsFixed == false)
             {
                 if (entityStatsPromptPlayed == false)
                 {
