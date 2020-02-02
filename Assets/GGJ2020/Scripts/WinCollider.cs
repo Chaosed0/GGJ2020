@@ -5,7 +5,7 @@ using UnityEngine.Diagnostics;
 
 public class WinCollider : MonoBehaviour
 {
-    private const string videoLocation = "Assets/Video.mp4";
+    private const string videoLocation = "Assets/Victory.video";
     private const string crashDataLocation = "crash.log";
 
     private bool won = false;
@@ -30,11 +30,11 @@ public class WinCollider : MonoBehaviour
         var fileInfo = new FileInfo(videoPath);
         if (!fileInfo.Exists)
         {
-            var message = $"Victory video not found in {videoPath}! (TODD SAYS TO GET IT FROM https://chaosed0.github.io/GGJ2020/TestEnd.video)";
+            var message = $"Victory video not found in {videoPath}! (TODD SAYS TO GET IT FROM https://chaosed0.github.io/GGJ2020/Victory.video)";
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
             tinyfd.tinyfd_beep();
-            tinyfd.tinyfd_messageBox("Error!", "Consult error.log for more details", "ok", "error", 1);
+            tinyfd.tinyfd_messageBox("Error!", "Consult crash.log for more details", "ok", "error", 1);
 #endif
 
             using (var writer = new StreamWriter(crashDataLocation, false))
@@ -55,7 +55,6 @@ public class WinCollider : MonoBehaviour
         else
         {
             var videoPlayer = Camera.main.GetComponent<VideoPlayer>();
-            videoPlayer.url = fileInfo.FullName;
             videoPlayer.Play();
 
             won = true;
