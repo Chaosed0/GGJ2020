@@ -536,12 +536,6 @@ BasedOn=SystemSettingsIPad2
 
 [Configuration]
 
-[EntityAttributes]
-Player_Health=1
-Player_Damage=0
-Monster_Health=999
-Monster_Damage=999
-
 [SystemSettingsTexturesDerp]
 BasedOn=SystemSettings
 TEXTUREGROUP_Character=(MinLODSize=1,MaxLODSize=128,LODBias=0)
