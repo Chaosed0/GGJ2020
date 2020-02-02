@@ -10,6 +10,7 @@ public class KeyValueFormatParser
     [RuntimeInitializeOnLoadMethod]
     private static void ParseData()
     {
+        // Debug.Log("KeyValueFormatParser::ParseData()");
         var path = MetaLoadUtil.GetPath(DataPath);
         keyValuePairs = KeyValueFormatParser.Parse(path);
         if (keyValuePairs == null)
