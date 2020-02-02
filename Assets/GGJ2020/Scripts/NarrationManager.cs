@@ -70,7 +70,7 @@ public class NarrationManager : MonoBehaviour
 
     }
 
-    private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition)
+    private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition, Collider2D hitCollider)
     {
 
     }
