@@ -222,8 +222,10 @@ MonoBehaviour:
   narratorAudioSource: {fileID: 7862892832367432407}
   introDelay: 1
   introClip: {fileID: 8300000, guid: a5fa4bef890828146ae0cabfa4987973, type: 3}
-  keyBindClip: {fileID: 8300000, guid: f0ea03f3d2feb9a42be123d8700333e4, type: 3}
-  tileSetClip: {fileID: 8300000, guid: 72641c96e8e367b4fb0e3431685e94e2, type: 3}
+  keyBindsBrokenClip: {fileID: 8300000, guid: f0ea03f3d2feb9a42be123d8700333e4, type: 3}
+  tileSetBrokenClip: {fileID: 8300000, guid: 72641c96e8e367b4fb0e3431685e94e2, type: 3}
+  entityStatsBrokenClip: {fileID: 8300000, guid: 823c297a5d994da4e8efc67e1c61287c,
+    type: 3}
 --- !u!82 &7862892832367432407
 AudioSource:
   m_ObjectHideFlags: 0

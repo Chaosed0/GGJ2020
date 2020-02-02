@@ -3,18 +3,7 @@ using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
-    private static AudioManager _Instance;
-    public static AudioManager Instance
-    {
-        get
-        {
-            if (_Instance == null)
-            {
-                _Instance = GameObject.FindObjectOfType<AudioManager>();
-            }
-            return _Instance;
-        }
-    }
+    public static AudioManager Instance;
 
     [FormerlySerializedAs("playerMoveAudioSource")]
     public AudioSource playerActionAudioSource;
@@ -37,7 +26,18 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
         rand = new System.Random();
+
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
