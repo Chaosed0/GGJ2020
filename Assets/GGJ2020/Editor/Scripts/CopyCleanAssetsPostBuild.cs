@@ -38,7 +38,7 @@ class CopyDir
         foreach (FileInfo fi in source.GetFiles())
         {
             Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
-            fi.CopyTo(Path.Combine(target.FullName, fi.Name), false);
+            fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
         }
 
         // Copy each subdirectory using recursion.
