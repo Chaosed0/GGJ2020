@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Cinemachine;
 
 public class Status : MonoBehaviour
@@ -15,6 +16,8 @@ public class Status : MonoBehaviour
     private int attack = 1;
 
     CinemachineImpulseSource impulseSource = null;
+
+    public UnityAction OnDead = null;
 
     [RuntimeInitializeOnLoadMethod]
     private static void ParseEnemyData()
@@ -46,6 +49,11 @@ public class Status : MonoBehaviour
         this.attack = selfEnemyData.damage;
     }
 
+    public bool isDead()
+    {
+        return this.health <= 0;
+    }
+
     public void takeDamageFrom(Status attacker) {
         if (this.health <= 0)
         {
@@ -54,9 +62,10 @@ public class Status : MonoBehaviour
         var damage = attacker.attack;
         this.health -= damage;
         Debug.Log(this.id + " took " + damage + " damage");
-        if (this.health <= 0)
+        if (this.isDead())
         {
             Debug.Log(this.id + " died");
+            OnDead?.Invoke();
             GameObject.Destroy(GameObject.Find(this.id));
         }
 
