@@ -10,10 +10,10 @@ public class MovePlayer : MonoBehaviour
 
     private const string keyBindingPath = "Data/keys.data";
 
-    private KeyCode upKey = KeyCode.None;
-    private KeyCode leftKey = KeyCode.None;
-    private KeyCode rightKey = KeyCode.None;
-    private KeyCode downKey = KeyCode.None;
+    private string upKey = null;
+    private string leftKey = null;
+    private string rightKey = null;
+    private string downKey = null;
 
     private void OnValidate()
     {
@@ -43,50 +43,38 @@ public class MovePlayer : MonoBehaviour
         rightKey = MapKey(keyBindings, "right");
     }
 
-    private KeyCode MapKey(Dictionary<string, string> map, string key)
+    private string MapKey(Dictionary<string, string> map, string key)
     {
         string strValue;
-        if (!map.TryGetValue(key, out strValue))
+        if (!map.TryGetValue(key, out strValue) ||
+            string.IsNullOrEmpty(strValue))
         {
-            Debug.LogError($"Key '{key}' not found in keys.data!");
-            return KeyCode.None;
+            Debug.LogError($"Key '{key}' is unmapped! Check keys.data");
+            return null;
         }
 
-        int intValue;
-        if (!int.TryParse(strValue, out intValue))
-        {
-            Debug.LogError($"Value for key '{key}' is not an integer!");
-            return KeyCode.None;
-        }
-
-        if (!System.Enum.IsDefined(typeof(KeyCode), intValue))
-        {
-            Debug.LogError($"Value {intValue} for key '{key}' is not a valid KeyCode!");
-            return KeyCode.None;
-        }
-
-        return (KeyCode)intValue;
+        return strValue;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (this.upKey != KeyCode.None && Input.GetKeyDown(this.upKey))
+        if (this.upKey != null && Input.GetKeyDown(this.upKey))
         {
             player.TryMove(Direction.Up);
             PingEnemeyToPerformAction();
         }
-        if (this.downKey != KeyCode.None && Input.GetKeyDown(this.downKey))
+        if (this.downKey != null && Input.GetKeyDown(this.downKey))
         {
             player.TryMove(Direction.Down);
             PingEnemeyToPerformAction();
         }
-        if (this.leftKey != KeyCode.None && Input.GetKeyDown(this.leftKey))
+        if (this.leftKey != null && Input.GetKeyDown(this.leftKey))
         {
             player.TryMove(Direction.Left);
             PingEnemeyToPerformAction();
         }
-        if (this.rightKey != KeyCode.None && Input.GetKeyDown(this.rightKey))
+        if (this.rightKey != null && Input.GetKeyDown(this.rightKey))
         {
             player.TryMove(Direction.Right);
             PingEnemeyToPerformAction();
