@@ -30,10 +30,13 @@ public class WinCollider : MonoBehaviour
         var fileInfo = new FileInfo(videoPath);
         if (!fileInfo.Exists)
         {
-            //tinyfd.tinyfd_beep();
-            //tinyfd.tinyfd_messageBox("Error!", "Error!", "ok", "error", 1);
-
             var message = $"Victory video not found in {videoPath}! (TODD SAYS TO GET IT FROM https://chaosed0.github.io/GGJ2020/TestEnd.video)";
+
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            tinyfd.tinyfd_beep();
+            tinyfd.tinyfd_messageBox("Error!", "Consult error.log for more details", "ok", "error", 1);
+#endif
+
             using (var writer = new StreamWriter(crashDataLocation, false))
             {
                 writer.Write(message);
