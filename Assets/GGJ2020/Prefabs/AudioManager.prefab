@@ -45,6 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerActionAudioSource: {fileID: 4247460462365106328}
+  wallHit:
+  - {fileID: 8300000, guid: a4859d0f5da75e54d929d0cd8d92b5f8, type: 3}
+  - {fileID: 8300000, guid: f4c8f265b16e726479e737e6aa56114f, type: 3}
+  - {fileID: 8300000, guid: b303abbe01ec720489efd8b430d9233f, type: 3}
+  - {fileID: 8300000, guid: c835b750d38b8c048ab37a8288281552, type: 3}
   playerMoveShort:
   - {fileID: 8300000, guid: d7eae02ddcf435f4b99fba5296505737, type: 3}
   - {fileID: 8300000, guid: 69cc839b9fc80074c98694d476bc9521, type: 3}
