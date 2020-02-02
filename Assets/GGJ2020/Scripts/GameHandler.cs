@@ -11,6 +11,8 @@ public class GameHandler : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log($"Is wall transparent: {LoadSpriteFromDisk.IsTransparent("Assets/Images/Wall.png")}");
+
         youDied.GetComponent<Canvas>().enabled = false;
         youDied.GetComponent<Animator>().enabled = false;
         var player = GameObject.FindGameObjectWithTag("Player");

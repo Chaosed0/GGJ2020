@@ -20,11 +20,34 @@ public class LoadSpriteFromDisk : MonoBehaviour
         this.Autofill(ref spriteRenderer, true);
     }
 
-    private void Awake()
+    public static bool IsTransparent(string path)
     {
-        var path = MetaLoadUtil.GetPath(this.path);
+        var sprite = GetSprite(path);
+        if (sprite == null)
+        {
+            return true;
+        }
 
-        if (!spriteCache.TryGetValue(this.path, out this.generatedSprite))
+        for (int x = 0; x < sprite.texture.width; ++x)
+        {
+            for (int y = 0; y < sprite.texture.height; ++y)
+            {
+                var color = sprite.texture.GetPixel(x, y);
+                if (!Mathf.Approximately(color.a, 0f))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private static Sprite GetSprite(string path)
+    {
+        path = MetaLoadUtil.GetPath(path);
+        Sprite sprite = null;
+        if (!spriteCache.TryGetValue(path, out sprite))
         {
             if (File.Exists(path))
             {
@@ -35,9 +58,9 @@ public class LoadSpriteFromDisk : MonoBehaviour
                 var squareSize = Mathf.Min(texture.width, texture.height);
                 var rect = new Rect(0, 0, texture.width, texture.height);
                 var pivot = new Vector2(0.5f, 0.5f);
-                generatedSprite = Sprite.Create(texture, rect, pivot, squareSize);
+                sprite = Sprite.Create(texture, rect, pivot, squareSize);
 
-                spriteCache[this.path] = generatedSprite;
+                spriteCache[path] = sprite;
             }
             else
             {
@@ -45,6 +68,12 @@ public class LoadSpriteFromDisk : MonoBehaviour
             }
         }
 
+        return sprite;
+    }
+
+    private void Awake()
+    {
+        this.generatedSprite = GetSprite(this.path);
         if (generatedSprite != null)
         {
             var texture = generatedSprite.texture;
