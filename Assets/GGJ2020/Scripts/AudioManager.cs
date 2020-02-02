@@ -30,8 +30,6 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
         rand = new System.Random();
     }
 
@@ -44,7 +42,7 @@ public class AudioManager : MonoBehaviour
             player.OnPositionChanged += (x, y) => { PlayPlayerMoveLong(); };
             player.OnPositionRejected += (x, y) => { PlayPlayerMoveShort(); };
 
-            playerStatus = GetComponent<Status>();
+            playerStatus = player.GetComponent<Status>();
             if (playerStatus != null)
             {
                 playerStatus.OnDead += PlayPlayerDeath;
