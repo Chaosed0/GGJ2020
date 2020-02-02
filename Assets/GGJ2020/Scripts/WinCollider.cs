@@ -5,8 +5,10 @@ using UnityEngine.Diagnostics;
 
 public class WinCollider : MonoBehaviour
 {
-    private const string videoLocation = "Data/Video.mp4";
+    private const string videoLocation = "Assets/Video.mp4";
     private const string crashDataLocation = "crash.log";
+
+    private bool won = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,6 +21,11 @@ public class WinCollider : MonoBehaviour
 
     private void Win()
     {
+        if (won)
+        {
+            return;
+        }
+
         var videoPath = MetaLoadUtil.GetPath(videoLocation);
         if (!File.Exists(videoPath))
         {
@@ -47,5 +54,7 @@ public class WinCollider : MonoBehaviour
         var videoPlayer = Camera.main.GetComponent<VideoPlayer>();
         videoPlayer.url = videoPath;
         videoPlayer.Play();
+
+        won = true;
     }
 }
