@@ -16,16 +16,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public Player player;
-
-    private Status playerStatus;
-
     [FormerlySerializedAs("playerMoveAudioSource")]
     public AudioSource playerActionAudioSource;
 
     public AudioClip[] playerMoveShort;
     public AudioClip[] playerMoveLong;
     public AudioClip[] playerDeath;
+
+    private Player player;
+    private Status playerStatus;
 
     private System.Random rand;
 
@@ -38,6 +37,8 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
         if (player != null)
         {
             player.OnPositionChanged += (x, y) => { PlayPlayerMoveLong(); };
