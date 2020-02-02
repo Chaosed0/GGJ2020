@@ -20,7 +20,7 @@ public class MovePlayer : MonoBehaviour
         this.Autofill(ref player, true);
     }
 
-    void Start()
+    private void Start()
     {
         LoadKeyBindings();
     }
@@ -31,6 +31,24 @@ public class MovePlayer : MonoBehaviour
         downKey = MapKey(KeyValueFormatParser.keyValuePairs, "Down");
         leftKey = MapKey(KeyValueFormatParser.keyValuePairs, "Left");
         rightKey = MapKey(KeyValueFormatParser.keyValuePairs, "Right");
+    }
+
+    public bool AreKeysCorrectlyBound()
+    {
+        if (upKey.ToLower() == "w" || upKey.ToLower() == "up")
+        {
+            if (downKey.ToLower() == "s" || downKey.ToLower() == "down")
+            {
+                if (leftKey.ToLower() == "a" || leftKey.ToLower() == "left")
+                {
+                    if (rightKey.ToLower() == "d" || rightKey.ToLower() == "right")
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private string MapKey(Dictionary<string, string> map, string key)
