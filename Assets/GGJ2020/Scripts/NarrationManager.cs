@@ -15,10 +15,57 @@ public class NarrationManager : MonoBehaviour
     public AudioClip tileSetBrokenClip;
     public AudioClip entityStatsBrokenClip;
 
-    private Player player;
-    private MovePlayer movePlayer;
-    private Status playerStatus;
-    private Status enemyStatus;
+    private Player _player;
+    private Player player
+    {
+        get
+        {
+            if (_player == null)
+            {
+                _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            }
+            return _player;
+        }
+    }
+
+    private MovePlayer _movePlayer;
+    private MovePlayer movePlayer
+    {
+        get
+        {
+            if (_movePlayer == null)
+            {
+                _movePlayer = player.GetComponent<MovePlayer>();
+            }
+            return _movePlayer;
+        }
+    }
+
+    private Status _playerStatus;
+    private Status playerStatus
+    {
+        get
+        {
+            if (_playerStatus == null)
+            {
+                _playerStatus = player.GetComponent<Status>();
+            }
+            return _playerStatus;
+        }
+    }
+
+    private Status _enemyStatus;
+    private Status enemyStatus
+    {
+        get
+        {
+            if (_enemyStatus == null)
+            {
+                _enemyStatus = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Status>();
+            }
+            return _enemyStatus;
+        }
+    }
 
     private bool keyBindingsFixed;
     private bool keyBindingPromptPlayed;
@@ -38,8 +85,6 @@ public class NarrationManager : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-
         if (player != null)
         {
             player.OnPositionChanged += HandlePositionChanged;
