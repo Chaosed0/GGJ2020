@@ -9,8 +9,8 @@ public class Status : MonoBehaviour
     public string id; // matches both an object and a layer name.
     public string enemyDataType; // Should match the type of the enemy in the data.data json
 
-    private int health = 5;
-    private int attack = 1;
+    public int health = 5;
+    public int attack = 1;
 
     CinemachineImpulseSource impulseSource = null;
 

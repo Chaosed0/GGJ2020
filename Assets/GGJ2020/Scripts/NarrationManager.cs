@@ -1,24 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class NarrationManager : MonoBehaviour
 {
     public AudioSource narratorAudioSource;
 
-    public float introDelay = 1.0f;
+    [FormerlySerializedAs("introDelay")]
+    public float narratorDelay = 1.0f;
 
     public AudioClip introClip;
-    public AudioClip keyBindClip;
-    public AudioClip tileSetClip;
+    [FormerlySerializedAs("keyBindClip")]
+    public AudioClip keyBindsBrokenClip;
+    [FormerlySerializedAs("tileSetClip")]
+    public AudioClip tileSetBrokenClip;
+    public AudioClip entityStatsBrokenClip;
 
     private Player player;
     private MovePlayer movePlayer;
     private Status playerStatus;
+    private Status enemyStatus;
 
-    private bool keysCorrectlyBound;
+    private bool keyBindingsFixed;
     private bool keyBindingPromptPlayed;
+    private bool tileSetFixed;
     private bool tileSetPromptPlayed;
+    private bool entityStatsFixed;
+    private bool entityStatsPromptPlayed;
 
     private int upAttempts;
     private int leftAttempts;
@@ -47,24 +54,30 @@ public class NarrationManager : MonoBehaviour
             }
         }
 
+        enemyStatus = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Status>();
+
         // Increment the number of times the game has been launched
         PlayerPrefs.SetInt("NumLaunches", PlayerPrefs.GetInt("NumLaunches", 0) + 1);
         if (logging) Debug.Log($"Number of Launches: {PlayerPrefs.GetInt("NumLaunches", 0)}");
 
         Util.ExecuteAfterTime(this, 0.02f, CheckPuzzleSolutions);
-        Util.ExecuteAfterTime(this, 0.02f + introDelay, PotentiallyPlayIntro);
+        Util.ExecuteAfterTime(this, 0.02f + narratorDelay, PotentiallyPlayIntro);
     }
 
     private void Update()
     {
-        if (keysCorrectlyBound == false && keyBindingPromptPlayed == false)
+        if (keyBindingsFixed == false && keyBindingPromptPlayed == false)
         {
             CountMovementAttempts();
 
             if (upAttempts + downAttempts >= 1)
             {
-                Util.ExecuteAfterTime(this, 2.0f, PlayKeyBindingsPrompt);
-                keyBindingPromptPlayed = true;
+                // Leave this check in if we want the intro to continue playing before the key bind prompt plays
+                if (narratorAudioSource.isPlaying == false)
+                {
+                    Util.ExecuteAfterTime(this, narratorDelay, PlayKeyBindingsBroken);
+                    keyBindingPromptPlayed = true;
+                }
             }
         }
         
@@ -84,7 +97,22 @@ public class NarrationManager : MonoBehaviour
         if (movePlayer.AreKeysCorrectlyBound())
         {
             PlayerPrefs.SetInt("KeyBindsFixed", PlayerPrefs.GetInt("KeyBindsFixed", 0) + 1);
-            keysCorrectlyBound = true;
+            if (logging) Debug.Log("Key Binds Fixed");
+            keyBindingsFixed = true;
+        }
+
+        if (LoadSpriteFromDisk.IsTransparent("Assets/Images/Wall.png") == true)
+        {
+            PlayerPrefs.SetInt("TileSetFixed", PlayerPrefs.GetInt("TileSetFixed", 0) + 1);
+            if (logging) Debug.Log("Tile Set Fixed");
+            tileSetFixed = true;
+        }
+
+        if (enemyStatus.attack / playerStatus.health <= playerStatus.attack / enemyStatus.health)
+        {
+            PlayerPrefs.SetInt("EntityStatsFixed", PlayerPrefs.GetInt("EntityStatsFixed", 0) + 1);
+            if (logging) Debug.Log("Entity Stats Fixed");
+            entityStatsFixed = true;
         }
     }
 
@@ -107,22 +135,32 @@ public class NarrationManager : MonoBehaviour
         */
     }
 
-    private void PlayKeyBindingsPrompt()
+    private void PlayKeyBindingsBroken()
     {
         if (logging) Debug.Log("NarrationManager::PlayKeyBindingsPrompt()");
-        if (keyBindClip != null)
+        if (keyBindsBrokenClip != null)
         {
-            narratorAudioSource.clip = keyBindClip;
+            narratorAudioSource.clip = keyBindsBrokenClip;
             narratorAudioSource.Play();
         }
     }
 
-    private void PlayTileSetPrompt()
+    private void PlayTileSetBroken()
     {
         if (logging) Debug.Log("NarrationManager::PlayTileSetPrompt()");
-        if (tileSetClip != null)
+        if (tileSetBrokenClip != null)
         {
-            narratorAudioSource.clip = tileSetClip;
+            narratorAudioSource.clip = tileSetBrokenClip;
+            narratorAudioSource.Play();
+        }
+    }
+
+    private void PlayEntityStatsBroken()
+    {
+        if (logging) Debug.Log("NarrationManager::PlayEntityStatsBroken()");
+        if (entityStatsBrokenClip != null)
+        {
+            narratorAudioSource.clip = entityStatsBrokenClip;
             narratorAudioSource.Play();
         }
     }
@@ -134,7 +172,7 @@ public class NarrationManager : MonoBehaviour
 
     private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition, Collider2D hitCollider)
     {
-        if (keysCorrectlyBound == true)
+        if (keyBindingsFixed == true)
         {
             if (tileSetPromptPlayed == false)
             {
@@ -145,7 +183,7 @@ public class NarrationManager : MonoBehaviour
 
                     if (walkThruWallAttempts >= 3)
                     {
-                        Util.ExecuteAfterTime(this, 1.0f, PlayTileSetPrompt);
+                        Util.ExecuteAfterTime(this, 1.0f, PlayTileSetBroken);
                         tileSetPromptPlayed = true;
                     }
                 }
@@ -155,7 +193,19 @@ public class NarrationManager : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
+        if (logging) Debug.Log("NarrationManager::HandlePlayerDeath()");
 
+        if (keyBindingsFixed)
+        {
+            if (tileSetFixed == false)
+            {
+                if (entityStatsPromptPlayed == false)
+                {
+                    Util.ExecuteAfterTime(this, narratorDelay, PlayEntityStatsBroken);
+                    entityStatsPromptPlayed = true;
+                }
+            }
+        }
     }
 
     private void CountMovementAttempts()
