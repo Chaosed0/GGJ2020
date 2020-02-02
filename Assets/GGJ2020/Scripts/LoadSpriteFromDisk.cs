@@ -37,15 +37,20 @@ public class LoadSpriteFromDisk : MonoBehaviour
                 var pivot = new Vector2(0.5f, 0.5f);
                 generatedSprite = Sprite.Create(texture, rect, pivot, squareSize);
 
-                var scale = new Vector3(squareSize / (float)texture.width, squareSize / (float)texture.height, 1f);
-                this.transform.localScale = scale;
-
                 spriteCache[this.path] = generatedSprite;
             }
             else
             {
                 Debug.LogError($"Sprite at {path} cannot be found!");
             }
+        }
+
+        if (generatedSprite != null)
+        {
+            var texture = generatedSprite.texture;
+            var squareSize = Mathf.Min(texture.width, texture.height);
+            var scale = new Vector3(squareSize / (float)texture.width, squareSize / (float)texture.height, 1f);
+            this.transform.localScale = scale;
         }
 
         spriteRenderer.sprite = generatedSprite;
