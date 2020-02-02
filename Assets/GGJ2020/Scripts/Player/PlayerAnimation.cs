@@ -43,7 +43,7 @@ public class PlayerAnimation : MonoBehaviour
         coroutine = StartCoroutine(AnimateCoroutine(oldPosition, newPosition, moveAnimationCurve));
     }
 
-    private void OnPositionRejected(Vector3 oldPosition, Vector3 newPosition)
+    private void OnPositionRejected(Vector3 oldPosition, Vector3 newPosition, Collider2D collider)
     {
         if (coroutine != null)
         {

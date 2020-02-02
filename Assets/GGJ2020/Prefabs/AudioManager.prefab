@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerActionAudioSource: {fileID: 4247460462365106328}
+  enemyActionAudioSource: {fileID: 0}
   wallHit:
   - {fileID: 8300000, guid: a4859d0f5da75e54d929d0cd8d92b5f8, type: 3}
   - {fileID: 8300000, guid: f4c8f265b16e726479e737e6aa56114f, type: 3}
@@ -65,6 +66,18 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cd2c5367062247843adf0927a1347cff, type: 3}
   - {fileID: 8300000, guid: 6b8094b9b2cce64449a123c424275256, type: 3}
   - {fileID: 8300000, guid: 00246ab0a2a998941aa6d35e3b30fe7c, type: 3}
+  playerAttack:
+  - {fileID: 8300000, guid: 540b1f10adcff2849a3615fda2540d78, type: 3}
+  - {fileID: 8300000, guid: 24dca1dd20f7e9241be01f6656161e26, type: 3}
+  - {fileID: 8300000, guid: 1dee99a34e956f24985c5ac082fe54bf, type: 3}
+  - {fileID: 8300000, guid: ec34942017418e247a09578ef0af42ea, type: 3}
+  enemyMove:
+  - {fileID: 8300000, guid: 5bd77940328d1414e883c3235997e0e6, type: 3}
+  enemyDeath:
+  - {fileID: 8300000, guid: 8c99eaacce51cc845ac459c4170bba98, type: 3}
+  - {fileID: 8300000, guid: 2a38ba3e4f0bc534797ab6f7ce2643ce, type: 3}
+  - {fileID: 8300000, guid: c2b66455761f6944c926bcb68669b864, type: 3}
+  - {fileID: 8300000, guid: 2ae14a4af702937429fb35234486cf40, type: 3}
 --- !u!82 &4247460462365106328
 AudioSource:
   m_ObjectHideFlags: 0

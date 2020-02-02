@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     private Status status = null;
 
     public UnityAction<Vector3, Vector3> OnPositionChanged = null;
-    public UnityAction<Vector3, Vector3> OnPositionRejected = null;
+    public UnityAction<Vector3, Vector3, Collider2D> OnPositionRejected = null;
 
     public string maskLabel; // this should really just be named layer but whatever
 
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
                 otherStatus.takeDamageFrom(this.status);
             }
 
-            OnPositionRejected?.Invoke(oldPosition, newPosition);
+            OnPositionRejected?.Invoke(oldPosition, newPosition, hit.collider);
 
             return false;
         }
