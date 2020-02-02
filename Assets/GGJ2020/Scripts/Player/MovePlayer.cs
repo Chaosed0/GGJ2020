@@ -71,16 +71,20 @@ public class MovePlayer : MonoBehaviour
         }
     }
 
+    private static WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
     private void PingEnemeyToPerformAction()
     {
-        Util.OnNextFrame(this, () =>
+        StartCoroutine(BlahCoroutine());
+    }
+
+    private IEnumerator BlahCoroutine()
+    {
+        yield return waitForFixedUpdate;
+        GameObject enemyobject = GameObject.FindGameObjectWithTag("Enemy");
+        if (enemyobject != null)
         {
-            GameObject enemyobject = GameObject.FindGameObjectWithTag("Enemy");
-            if (enemyobject != null)
-            {
-                MoveEnemy enemyscript = enemyobject.GetComponent<MoveEnemy>();
-                enemyscript.PerformAction();
-            }
-        });
+            MoveEnemy enemyscript = enemyobject.GetComponent<MoveEnemy>();
+            enemyscript.PerformAction();
+        }
     }
 }
