@@ -5,14 +5,16 @@ using UnityEngine.SceneManagement;
 public class GameHandler : MonoBehaviour
 {
     [SerializeField]
-    private Status playerStatus = null;
-
-    [SerializeField]
     private GameObject youDied = null;
+
+    private Status playerStatus = null;
 
     private void Start()
     {
         youDied.SetActive(false);
+        var player = GameObject.FindGameObjectWithTag("Player");
+        this.playerStatus = player.GetComponent<Status>();
+
         playerStatus.OnDead += OnPlayerDied;
     }
 
@@ -24,7 +26,7 @@ public class GameHandler : MonoBehaviour
     private IEnumerator YouDiedCoroutine()
     {
         youDied.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 }
