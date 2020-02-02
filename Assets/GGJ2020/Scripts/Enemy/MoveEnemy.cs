@@ -28,7 +28,7 @@ public class MoveEnemy : MonoBehaviour
             return;
         }
 
-        GameObject playerObject = GameObject.Find("Player");
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if(playerObject == null)
         {
             return;

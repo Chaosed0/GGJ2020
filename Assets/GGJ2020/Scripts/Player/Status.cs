@@ -73,7 +73,7 @@ public class Status : MonoBehaviour
 
         if (impulseSource != null)
         {
-            impulseSource.GenerateImpulse(Random.onUnitSphere * Mathf.Min(damage, 999f));
+            impulseSource.GenerateImpulse(Random.onUnitSphere * Mathf.Clamp(damage / 10f, 1f, 50f));
         }
     }
 }
