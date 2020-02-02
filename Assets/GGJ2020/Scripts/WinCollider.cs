@@ -22,8 +22,8 @@ public class WinCollider : MonoBehaviour
         var videoPath = MetaLoadUtil.GetPath(videoLocation);
         if (!File.Exists(videoPath))
         {
-            tinyfd.tinyfd_beep();
-            tinyfd.tinyfd_messageBox("Error!", "Error!", "ok", "error", 1);
+            //tinyfd.tinyfd_beep();
+            //tinyfd.tinyfd_messageBox("Error!", "Error!", "ok", "error", 1);
 
             if (!Application.isEditor)
             {
