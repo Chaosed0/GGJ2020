@@ -97,7 +97,7 @@ public class NarrationManager : MonoBehaviour
 
     private int walkThruWallAttempts;
 
-    private bool logging = true;
+    private bool logging = false;
 
     private void Start()
     {
