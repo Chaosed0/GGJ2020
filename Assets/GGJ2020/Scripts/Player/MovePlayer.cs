@@ -35,13 +35,13 @@ public class MovePlayer : MonoBehaviour
 
     public bool AreKeysCorrectlyBound()
     {
-        if (upKey.ToLower() == "w" || upKey.ToLower() == "up")
+        if (upKey?.ToLower() == "w" || upKey?.ToLower() == "up")
         {
-            if (downKey.ToLower() == "s" || downKey.ToLower() == "down")
+            if (downKey?.ToLower() == "s" || downKey?.ToLower() == "down")
             {
-                if (leftKey.ToLower() == "a" || leftKey.ToLower() == "left")
+                if (leftKey?.ToLower() == "a" || leftKey?.ToLower() == "left")
                 {
-                    if (rightKey.ToLower() == "d" || rightKey.ToLower() == "right")
+                    if (rightKey?.ToLower() == "d" || rightKey?.ToLower() == "right")
                     {
                         return true;
                     }

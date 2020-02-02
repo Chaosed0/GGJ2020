@@ -107,8 +107,8 @@ public class NarrationManager : MonoBehaviour
         PlayerPrefs.SetInt("NumLaunches", PlayerPrefs.GetInt("NumLaunches", 0) + 1);
         if (logging) Debug.Log($"Number of Launches: {PlayerPrefs.GetInt("NumLaunches", 0)}");
 
-        Util.ExecuteAfterTime(this, 0.02f, CheckPuzzleSolutions);
-        Util.ExecuteAfterTime(this, 0.02f + narratorDelay, PotentiallyPlayIntro);
+        Util.ExecuteAfterTime(this, 0.1f, CheckPuzzleSolutions);
+        Util.ExecuteAfterTime(this, 0.1f + narratorDelay, PotentiallyPlayIntro);
 
         // We only have one level, so no need to specify which one
         SceneManager.sceneLoaded += (x, y) => { SubscribeToEvents(); };
