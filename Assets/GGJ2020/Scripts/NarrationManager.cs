@@ -15,6 +15,7 @@ public class NarrationManager : MonoBehaviour
     [FormerlySerializedAs("tileSetClip")]
     public AudioClip tileSetBrokenClip;
     public AudioClip entityStatsBrokenClip;
+    public AudioClip gameCrashClip;
 
     private Player _player;
     private Player player
@@ -68,6 +69,19 @@ public class NarrationManager : MonoBehaviour
         }
     }
 
+    private WinCollider _flag;
+    private WinCollider flag
+    {
+        get
+        {
+            if (_flag == null)
+            {
+                _flag = GameObject.FindGameObjectWithTag("Flag")?.GetComponentInChildren<WinCollider>();
+            }
+            return _flag;
+        }
+    }
+
     private bool keyBindingsFixed;
     private bool keyBindingPromptPlayed;
     private bool tileSetFixed;
@@ -103,13 +117,17 @@ public class NarrationManager : MonoBehaviour
     {
         if (player != null)
         {
-            player.OnPositionChanged += HandlePositionChanged;
             player.OnPositionRejected += HandlePositionRejected;
 
             if (playerStatus != null)
             {
                 playerStatus.OnDead += HandlePlayerDeath;
             }
+        }
+
+        if (flag != null)
+        {
+            flag.OnGameCrashed += HandleGameCrashed;
         }
     }
 
@@ -214,9 +232,18 @@ public class NarrationManager : MonoBehaviour
         }
     }
 
-    private void HandlePositionChanged(Vector3 oldPosition, Vector3 newPosition)
+    private void PlayGameCrashed()
     {
+        if (gameCrashClip != null)
+        {
+            narratorAudioSource.clip = gameCrashClip;
+            narratorAudioSource.Play();
+        }
+    }
 
+    private void HandleGameCrashed()
+    {
+        PlayGameCrashed();
     }
 
     private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition, Collider2D hitCollider)
