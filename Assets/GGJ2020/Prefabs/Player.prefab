@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: Player
-  enemyDataType: player
+  enemyDataType: Player
 --- !u!114 &1512339516348060844
 MonoBehaviour:
   m_ObjectHideFlags: 0

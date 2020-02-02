@@ -6,9 +6,6 @@ using Cinemachine;
 
 public class Status : MonoBehaviour
 {
-    private const string EnemyDataPath = "Data/data.data";
-    private static EnemyData fullEnemyData = null;
-
     public string id; // matches both an object and a layer name.
     public string enemyDataType; // Should match the type of the enemy in the data.data json
 
@@ -19,34 +16,31 @@ public class Status : MonoBehaviour
 
     public UnityAction OnDead = null;
 
-    [RuntimeInitializeOnLoadMethod]
-    private static void ParseEnemyData()
-    {
-        var path = MetaLoadUtil.GetPath(EnemyDataPath);
-        fullEnemyData = EnemyDataParser.Parse(path);
-        if (fullEnemyData == null)
-        {
-            Debug.LogError($"Enemy data does not exist at {path}!");
-        }
-    }
-
     private void Start()
     {
         this.Autofill(ref impulseSource, true);
-        LoadEntityData();
+        LoadKey($"{enemyDataType}_Health", ref this.health);
+        LoadKey($"{enemyDataType}_Damage", ref this.attack);
+
+        this.health = Mathf.Max(this.health, 1);
     }
 
-    private void LoadEntityData()
+    private void LoadKey(string key, ref int value)
     {
-        var selfEnemyData = fullEnemyData.enemyDatas.Find((x) => x.name == enemyDataType);
-        if (selfEnemyData == null)
+        string strValue = null;
+        int intValue = 0;
+        if (!KeyValueFormatParser.keyValuePairs.TryGetValue(key, out strValue))
         {
-            Debug.LogError($"No entity named '{enemyDataType}' found in data.data, falling back to default stats");
-            return;
+            Debug.LogError($"{key} not defined in Data.data!");
         }
-
-        this.health = selfEnemyData.health;
-        this.attack = selfEnemyData.damage;
+        else if (!int.TryParse(strValue, out intValue))
+        {
+            Debug.LogError($"{key} is not an integer!");
+        }
+        else
+        {
+            value = intValue;
+        }
     }
 
     public bool isDead()

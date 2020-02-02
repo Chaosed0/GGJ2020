@@ -27,20 +27,10 @@ public class MovePlayer : MonoBehaviour
 
     private void LoadKeyBindings()
     {
-        var path = MetaLoadUtil.GetPath(keyBindingPath);
-        Dictionary<string, string> keyBindings = KeyValueFormatParser.Parse(path);
-
-        if (keyBindings == null)
-        {
-            var fullPath = Path.GetFullPath(path);
-            Debug.LogError($"Key bindings file not found at {fullPath}!");
-            return;
-        }
-
-        upKey = MapKey(keyBindings, "up");
-        downKey = MapKey(keyBindings, "down");
-        leftKey = MapKey(keyBindings, "left");
-        rightKey = MapKey(keyBindings, "right");
+        upKey = MapKey(KeyValueFormatParser.keyValuePairs, "Up");
+        downKey = MapKey(KeyValueFormatParser.keyValuePairs, "Down");
+        leftKey = MapKey(KeyValueFormatParser.keyValuePairs, "Left");
+        rightKey = MapKey(KeyValueFormatParser.keyValuePairs, "Right");
     }
 
     private string MapKey(Dictionary<string, string> map, string key)
@@ -49,7 +39,7 @@ public class MovePlayer : MonoBehaviour
         if (!map.TryGetValue(key, out strValue) ||
             string.IsNullOrEmpty(strValue))
         {
-            Debug.LogError($"Key '{key}' is unmapped! Check keys.data");
+            Debug.LogError($"Key '{key}' is unmapped!");
             return null;
         }
 

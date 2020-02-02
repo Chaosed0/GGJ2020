@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: Enemy
-  enemyDataType: ???
+  enemyDataType: Monster
 --- !u!114 &1408377193308068282
 MonoBehaviour:
   m_ObjectHideFlags: 0

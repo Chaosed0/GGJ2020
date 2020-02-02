@@ -11,11 +11,18 @@ public class CopyCleanAssetsPostBuild
     {
         var sourceDirectory = "TestAssets/Clean";
         var destDirectory = new FileInfo(pathToBuiltProject).Directory.FullName;
+        var sourceDirectoryInfo = new DirectoryInfo(sourceDirectory);
 
-        foreach (var sourceSubDirectory in new DirectoryInfo(sourceDirectory).GetDirectories())
+        foreach (var sourceSubDirectory in sourceDirectoryInfo.GetDirectories())
         {
             var destSubDirectory = Path.Combine(destDirectory, sourceSubDirectory.Name);
             CopyDir.Copy(sourceSubDirectory.FullName, destSubDirectory);
+        }
+
+        foreach (var file in sourceDirectoryInfo.GetFiles())
+        {
+            var destFile = Path.Combine(destDirectory, file.Name);
+            File.Copy(file.FullName, destFile);
         }
     }
 }
