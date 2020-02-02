@@ -10,6 +10,7 @@ public class NarrationManager : MonoBehaviour
 
     public AudioClip introClip;
     public AudioClip keyBindClip;
+    public AudioClip tileSetClip;
 
     private Player player;
     private MovePlayer movePlayer;
@@ -17,11 +18,14 @@ public class NarrationManager : MonoBehaviour
 
     private bool keysCorrectlyBound;
     private bool keyBindingPromptPlayed;
+    private bool tileSetPromptPlayed;
 
     private int upAttempts;
     private int leftAttempts;
     private int rightAttempts;
     private int downAttempts;
+
+    private int walkThruWallAttempts;
 
     private bool logging = true;
 
@@ -98,6 +102,16 @@ public class NarrationManager : MonoBehaviour
         }
     }
 
+    private void PlayTileSetPrompt()
+    {
+        if (logging) Debug.Log("NarrationManager::PlayTileSetPrompt()");
+        if (tileSetClip != null)
+        {
+            narratorAudioSource.clip = tileSetClip;
+            narratorAudioSource.Play();
+        }
+    }
+
     private void HandlePositionChanged(Vector3 oldPosition, Vector3 newPosition)
     {
 
@@ -105,7 +119,23 @@ public class NarrationManager : MonoBehaviour
 
     private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition, Collider2D hitCollider)
     {
+        if (keysCorrectlyBound == true)
+        {
+            if (tileSetPromptPlayed == false)
+            {
+                if (LoadSpriteFromDisk.IsTransparent("Assets/Images/Wall.png") == true)
+                {
+                    walkThruWallAttempts++;
+                    if (logging) Debug.Log($"Walk Through Wall Attempts: {walkThruWallAttempts}");
 
+                    if (walkThruWallAttempts >= 3)
+                    {
+                        Util.ExecuteAfterTime(this, 1.0f, PlayTileSetPrompt);
+                        tileSetPromptPlayed = true;
+                    }
+                }
+            }
+        }
     }
 
     private void HandlePlayerDeath()
