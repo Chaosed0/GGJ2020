@@ -11,7 +11,8 @@ public class GameHandler : MonoBehaviour
 
     private void Start()
     {
-        youDied.SetActive(false);
+        youDied.GetComponent<Canvas>().enabled = false;
+        youDied.GetComponent<Animator>().enabled = false;
         var player = GameObject.FindGameObjectWithTag("Player");
         this.playerStatus = player.GetComponent<Status>();
 
@@ -25,8 +26,9 @@ public class GameHandler : MonoBehaviour
 
     private IEnumerator YouDiedCoroutine()
     {
-        youDied.SetActive(true);
-        yield return new WaitForSeconds(4f);
+        youDied.GetComponent<Canvas>().enabled = true;
+        youDied.GetComponent<Animator>().enabled = true;
+        yield return new WaitForSeconds(5f);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 }
