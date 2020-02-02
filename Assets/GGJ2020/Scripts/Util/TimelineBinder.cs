@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using Cinemachine;
-using Cinemachine.Timeline;
 
 public class TimelineBinder : MonoBehaviour
 {
