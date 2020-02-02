@@ -82,7 +82,7 @@ public class AudioManager : MonoBehaviour
 
     private void HandlePositionChanged(Vector3 oldPosition, Vector3 newPosition)
     {
-        PlayRandom(playerActionAudioSource, playerMoveLong);
+        PlayRandom(playerActionAudioSource, playerMoveLong, 0.3f);
     }
 
     private void HandleEnemyPositionChanged(Vector3 oldPosition, Vector3 newPosition)
@@ -115,12 +115,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void PlayRandom(AudioSource source, AudioClip[] clips)
+    private void PlayRandom(AudioSource source, AudioClip[] clips, float volume = 1f)
     {
         if (clips != null && clips.Length > 0)
         {
             int index = rand.Next(clips.Length);
             source.clip = clips[index];
+            source.volume = volume;
             source.Play();
         }
     }

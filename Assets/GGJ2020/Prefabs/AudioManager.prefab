@@ -58,10 +58,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9d644d1858a9159408bf266b14166936, type: 3}
   - {fileID: 8300000, guid: 1bf3285b44d0297498da95285dc3f526, type: 3}
   playerMoveLong:
-  - {fileID: 8300000, guid: df95bc1a779114e45a32f35dda094913, type: 3}
-  - {fileID: 8300000, guid: 141399e9510e0064e966a9cef34b17ac, type: 3}
-  - {fileID: 8300000, guid: fd919033f1a3fc44c8f037dc79dbff87, type: 3}
-  - {fileID: 8300000, guid: 7dd1900b61da3ca4e9cf480a52867e7c, type: 3}
+  - {fileID: 8300000, guid: 3a88046466e61534d8859e59c13db09c, type: 3}
+  - {fileID: 8300000, guid: 3fc83a2c8e53941429f9bad447192bf3, type: 3}
+  - {fileID: 8300000, guid: 0184e919ef707d14d8b2a3ef8b7c02b5, type: 3}
+  - {fileID: 8300000, guid: 1b538b8c920974e429e61437946902c0, type: 3}
   playerDeath:
   - {fileID: 8300000, guid: e27de7839d1e777469ff1e2cf38baaf3, type: 3}
   - {fileID: 8300000, guid: cd2c5367062247843adf0927a1347cff, type: 3}
