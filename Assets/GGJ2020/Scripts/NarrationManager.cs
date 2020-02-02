@@ -90,16 +90,11 @@ public class NarrationManager : MonoBehaviour
             player.OnPositionChanged += HandlePositionChanged;
             player.OnPositionRejected += HandlePositionRejected;
 
-            movePlayer = player.GetComponent<MovePlayer>();
-
-            playerStatus = player.GetComponent<Status>();
             if (playerStatus != null)
             {
                 playerStatus.OnDead += HandlePlayerDeath;
             }
         }
-
-        enemyStatus = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Status>();
 
         // Increment the number of times the game has been launched
         PlayerPrefs.SetInt("NumLaunches", PlayerPrefs.GetInt("NumLaunches", 0) + 1);
