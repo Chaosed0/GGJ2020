@@ -220,7 +220,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   narratorAudioSource: {fileID: 7862892832367432407}
-  introClip: {fileID: 8300000, guid: 4d85d43320d12c649859cc570c3809a4, type: 3}
+  introDelay: 1
+  introClip: {fileID: 8300000, guid: a5fa4bef890828146ae0cabfa4987973, type: 3}
+  keyBindClip: {fileID: 8300000, guid: f0ea03f3d2feb9a42be123d8700333e4, type: 3}
+  tileSetClip: {fileID: 8300000, guid: 72641c96e8e367b4fb0e3431685e94e2, type: 3}
 --- !u!82 &7862892832367432407
 AudioSource:
   m_ObjectHideFlags: 0
@@ -231,7 +234,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4d85d43320d12c649859cc570c3809a4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a5fa4bef890828146ae0cabfa4987973, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

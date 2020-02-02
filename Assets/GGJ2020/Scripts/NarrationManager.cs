@@ -51,8 +51,8 @@ public class NarrationManager : MonoBehaviour
         PlayerPrefs.SetInt("NumLaunches", PlayerPrefs.GetInt("NumLaunches", 0) + 1);
         if (logging) Debug.Log($"Number of Launches: {PlayerPrefs.GetInt("NumLaunches", 0)}");
 
-        Util.ExecuteAfterTime(this, 0.02f, CheckKeyBindings);
-        Util.ExecuteAfterTime(this, introDelay, PotentiallyPlayIntro);
+        Util.ExecuteAfterTime(this, 0.02f, CheckPuzzleSolutions);
+        Util.ExecuteAfterTime(this, 0.02f + introDelay, PotentiallyPlayIntro);
     }
 
     private void Update()
@@ -79,6 +79,15 @@ public class NarrationManager : MonoBehaviour
         }
     }
 
+    private void CheckPuzzleSolutions()
+    {
+        if (movePlayer.AreKeysCorrectlyBound())
+        {
+            PlayerPrefs.SetInt("KeyBindsFixed", PlayerPrefs.GetInt("KeyBindsFixed", 0) + 1);
+            keysCorrectlyBound = true;
+        }
+    }
+
     private void PotentiallyPlayIntro()
     {
         if (PlayerPrefs.GetInt("NumLaunches", 0) <= 1)
@@ -90,6 +99,12 @@ public class NarrationManager : MonoBehaviour
                 narratorAudioSource.Play();
             }
         }
+        /*
+        else if (PlayerPrefs.GetInt("KeyBindsFixed", 0) <= 0)
+        {
+
+        }
+        */
     }
 
     private void PlayKeyBindingsPrompt()
@@ -141,11 +156,6 @@ public class NarrationManager : MonoBehaviour
     private void HandlePlayerDeath()
     {
 
-    }
-
-    private void CheckKeyBindings()
-    {
-        keysCorrectlyBound = movePlayer.AreKeysCorrectlyBound();
     }
 
     private void CountMovementAttempts()
