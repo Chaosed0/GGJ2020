@@ -12,10 +12,18 @@ public enum Direction
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private Status status = null;
+
     public UnityAction<Vector3, Vector3> OnPositionChanged = null;
     public UnityAction<Vector3, Vector3> OnPositionRejected = null;
 
     public string maskLabel; // this should really just be named layer but whatever
+
+    private void OnValidate()
+    {
+        this.Autofill(ref status, true);
+    }
 
     private Vector2 DirectionToVector(Direction direction)
     {
@@ -58,17 +66,11 @@ public class Player : MonoBehaviour
         {
             var hit = raycastHits[0];
 
-            if (maskLabel == "Enemy" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            Status otherStatus = hit.collider.GetComponentInParent<Status>();
+            if (otherStatus != null)
             {
-                Status enemyStatus = GameObject.Find("Enemy").GetComponent<Status>();
-                Status playerStatus = GameObject.Find("Player").GetComponent<Status>();
-                playerStatus.takeDamageFrom(enemyStatus);
-            }
-            if (maskLabel == "Player" && hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                Status playerStatus = GameObject.Find("Player").GetComponent<Status>();
-                Status enemyStatus = GameObject.Find("Enemy").GetComponent<Status>();
-                enemyStatus.takeDamageFrom(playerStatus);
+                Debug.Log($"{otherStatus}", otherStatus);
+                otherStatus.takeDamageFrom(this.status);
             }
 
             OnPositionRejected?.Invoke(oldPosition, newPosition);

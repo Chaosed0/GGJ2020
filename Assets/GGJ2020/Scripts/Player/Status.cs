@@ -54,11 +54,13 @@ public class Status : MonoBehaviour
         return this.health <= 0;
     }
 
-    public void takeDamageFrom(Status attacker) {
+    public void takeDamageFrom(Status attacker)
+    {
         if (this.health <= 0)
         {
             return;
         }
+
         var damage = attacker.attack;
         this.health -= damage;
         Debug.Log(this.id + " took " + damage + " damage");
@@ -66,7 +68,7 @@ public class Status : MonoBehaviour
         {
             Debug.Log(this.id + " died");
             OnDead?.Invoke();
-            GameObject.Destroy(GameObject.Find(this.id));
+            GameObject.Destroy(this.gameObject);
         }
 
         if (impulseSource != null)
