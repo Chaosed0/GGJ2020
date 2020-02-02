@@ -19,6 +19,7 @@ public class AudioManager : MonoBehaviour
     [FormerlySerializedAs("playerMoveAudioSource")]
     public AudioSource playerActionAudioSource;
 
+    public AudioClip[] wallHit;
     public AudioClip[] playerMoveShort;
     public AudioClip[] playerMoveLong;
     public AudioClip[] playerDeath;
@@ -39,28 +40,28 @@ public class AudioManager : MonoBehaviour
 
         if (player != null)
         {
-            player.OnPositionChanged += (x, y) => { PlayPlayerMoveLong(); };
-            player.OnPositionRejected += (x, y) => { PlayPlayerMoveShort(); };
+            player.OnPositionChanged += HandlePositionChanged;
+            player.OnPositionRejected += HandlePositionRejected;
 
             playerStatus = player.GetComponent<Status>();
             if (playerStatus != null)
             {
-                playerStatus.OnDead += PlayPlayerDeath;
+                playerStatus.OnDead += HandlePlayerDeath;
             }
         }
     }
 
-    private void PlayPlayerMoveShort()
+    private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition)
     {
-        if (playerMoveShort != null && playerMoveShort.Length > 0)
+        if (wallHit != null && wallHit.Length > 0)
         {
-            int index = rand.Next(playerMoveShort.Length);
-            playerActionAudioSource.clip = playerMoveShort[index];
+            int index = rand.Next(wallHit.Length);
+            playerActionAudioSource.clip = wallHit[index];
             playerActionAudioSource.Play();
         }
     }
 
-    private void PlayPlayerMoveLong()
+    private void HandlePositionChanged(Vector3 oldPosition, Vector3 newPosition)
     {
         if (playerMoveLong != null && playerMoveLong.Length > 0)
         {
@@ -70,13 +71,28 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void PlayPlayerDeath()
+    private void HandlePlayerDeath()
     {
         if (playerDeath != null && playerDeath.Length > 0)
         {
             int index = rand.Next(playerDeath.Length);
             playerActionAudioSource.clip = playerDeath[index];
             playerActionAudioSource.Play();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (player != null)
+        {
+            player.OnPositionChanged -= HandlePositionChanged;
+            player.OnPositionRejected -= HandlePositionRejected;
+
+            playerStatus = player.GetComponent<Status>();
+            if (playerStatus != null)
+            {
+                playerStatus.OnDead -= HandlePlayerDeath;
+            }
         }
     }
 }
