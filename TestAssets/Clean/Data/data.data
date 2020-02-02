@@ -21,8 +21,8 @@
 		},
 				{
 			"name": "???",
-			"health": 100,
-			"damage": 500,
+			"health": 999,
+			"damage": 999,
 			"speed": 3
 		},
 				{
