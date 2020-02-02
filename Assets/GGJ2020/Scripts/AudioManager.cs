@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
@@ -17,10 +18,14 @@ public class AudioManager : MonoBehaviour
 
     public Player player;
 
-    public AudioSource playerMoveAudioSource;
+    private Status playerStatus;
+
+    [FormerlySerializedAs("playerMoveAudioSource")]
+    public AudioSource playerActionAudioSource;
 
     public AudioClip[] playerMoveShort;
     public AudioClip[] playerMoveLong;
+    public AudioClip[] playerDeath;
 
     private System.Random rand;
 
@@ -37,26 +42,42 @@ public class AudioManager : MonoBehaviour
         {
             player.OnPositionChanged += (x, y) => { PlayPlayerMoveLong(); };
             player.OnPositionRejected += (x, y) => { PlayPlayerMoveShort(); };
+
+            playerStatus = GetComponent<Status>();
+            if (playerStatus != null)
+            {
+                playerStatus.OnDead += PlayPlayerDeath;
+            }
         }
     }
 
-    public void PlayPlayerMoveShort()
+    private void PlayPlayerMoveShort()
     {
         if (playerMoveShort != null && playerMoveShort.Length > 0)
         {
             int index = rand.Next(playerMoveShort.Length);
-            playerMoveAudioSource.clip = playerMoveShort[index];
-            playerMoveAudioSource.Play();
+            playerActionAudioSource.clip = playerMoveShort[index];
+            playerActionAudioSource.Play();
         }
     }
 
-    public void PlayPlayerMoveLong()
+    private void PlayPlayerMoveLong()
     {
         if (playerMoveLong != null && playerMoveLong.Length > 0)
         {
             int index = rand.Next(playerMoveLong.Length);
-            playerMoveAudioSource.clip = playerMoveLong[index];
-            playerMoveAudioSource.Play();
+            playerActionAudioSource.clip = playerMoveLong[index];
+            playerActionAudioSource.Play();
+        }
+    }
+
+    private void PlayPlayerDeath()
+    {
+        if (playerDeath != null && playerDeath.Length > 0)
+        {
+            int index = rand.Next(playerDeath.Length);
+            playerActionAudioSource.clip = playerDeath[index];
+            playerActionAudioSource.Play();
         }
     }
 }

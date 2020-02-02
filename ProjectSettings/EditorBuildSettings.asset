@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/GGJ2020/Scenes/FinalScene.unity
     guid: 01c63ea8c69af8d4f8cba91e7b8b29be
+  - enabled: 1
+    path: Assets/GGJ2020/Scenes/EdScene.unity
+    guid: 6edde26aadd575141b68bcc210a9c01d
   m_configObjects: {}
