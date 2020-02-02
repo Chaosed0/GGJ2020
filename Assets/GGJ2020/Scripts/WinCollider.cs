@@ -45,7 +45,7 @@ public class WinCollider : MonoBehaviour
             }
             else
             {
-                Debug.Log("Crash!");
+                Debug.Log(message);
             }
 
             return;
