@@ -34,6 +34,11 @@ public class MoveEnemy : MonoBehaviour
             return;
         }
 
+        if (playerObject.transform.position.x < 0)
+        {
+            return;
+        }
+
         if(playerObject.transform.position.x < this.transform.position.x)
         {
             player.TryMove(Direction.Left);
