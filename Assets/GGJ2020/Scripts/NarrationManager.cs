@@ -151,9 +151,9 @@ public class NarrationManager : MonoBehaviour
         }
         
         // Hold down Tilde, then press and release the C button to clear PlayerPrefs
-        if (Input.GetKey(KeyCode.BackQuote))
+        if (Input.GetKey("`"))
         {
-            if (Input.GetKeyUp(KeyCode.C))
+            if (Input.GetKeyUp("c"))
             {
                 if (logging) Debug.Log("Clearing Player Prefs...");
                 PlayerPrefs.DeleteAll();
