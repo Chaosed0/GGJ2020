@@ -97,7 +97,7 @@ public class NarrationManager : MonoBehaviour
 
     private int walkThruWallAttempts;
 
-    private bool logging = false;
+    private bool logging = true;
 
     private void Start()
     {
@@ -170,7 +170,7 @@ public class NarrationManager : MonoBehaviour
             keyBindingsFixed = true;
         }
 
-        if (LoadSpriteFromDisk.IsTransparent("Assets/Images/Wall.png") == true)
+        if (LoadSpriteFromDisk.IsTransparent("Assets/Images/Wall.png") == false)
         {
             PlayerPrefs.SetInt("TileSetFixed", PlayerPrefs.GetInt("TileSetFixed", 0) + 1);
             if (logging) Debug.Log("Tile Set Fixed");
@@ -264,20 +264,22 @@ public class NarrationManager : MonoBehaviour
 
     private void HandlePositionRejected(Vector3 oldPosition, Vector3 newPosition, Collider2D hitCollider)
     {
+        if (logging) Debug.Log($"NarrationManager::HandlePositionRejected()");
         if (keyBindingsFixed == true)
         {
+            if (logging) Debug.Log($"keyBindingsFixed: {keyBindingsFixed}");
+            if (logging) Debug.Log($"tileSetFixed: {tileSetFixed}");
+            if (logging) Debug.Log($"tileSetPromptPlayed: {tileSetPromptPlayed}");
+
             if (tileSetFixed == false && tileSetPromptPlayed == false)
             {
-                if (LoadSpriteFromDisk.IsTransparent("Assets/Images/Wall.png") == true)
-                {
-                    walkThruWallAttempts++;
-                    if (logging) Debug.Log($"Walk Through Wall Attempts: {walkThruWallAttempts}");
+                walkThruWallAttempts++;
+                if (logging) Debug.Log($"Walk Through Wall Attempts: {walkThruWallAttempts}");
 
-                    if (walkThruWallAttempts >= 3)
-                    {
-                        Util.ExecuteAfterTime(this, 1.0f, PlayTileSetBroken);
-                        tileSetPromptPlayed = true;
-                    }
+                if (walkThruWallAttempts >= 3)
+                {
+                    Util.ExecuteAfterTime(this, 1.0f, PlayTileSetBroken);
+                    tileSetPromptPlayed = true;
                 }
             }
         }
@@ -287,7 +289,10 @@ public class NarrationManager : MonoBehaviour
     {
         if (logging) Debug.Log("NarrationManager::HandlePlayerDeath()");
 
-        if (keyBindingsFixed)
+        if (logging) Debug.Log($"keyBindingsFixed: {keyBindingsFixed}");
+        if (logging) Debug.Log($"tileSetFixed: {tileSetFixed}");
+
+        if (keyBindingsFixed && tileSetFixed)
         {
             if (entityStatsFixed == false)
             {
