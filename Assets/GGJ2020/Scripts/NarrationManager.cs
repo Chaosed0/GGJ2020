@@ -177,7 +177,7 @@ public class NarrationManager : MonoBehaviour
             tileSetFixed = true;
         }
 
-        if (enemyStatus.attack / playerStatus.health <= playerStatus.attack / enemyStatus.health)
+        if ((playerStatus.health / enemyStatus.attack) >= (enemyStatus.health / playerStatus.attack))
         {
             PlayerPrefs.SetInt("EntityStatsFixed", PlayerPrefs.GetInt("EntityStatsFixed", 0) + 1);
             if (logging) Debug.Log("Entity Stats Fixed");
@@ -294,7 +294,7 @@ public class NarrationManager : MonoBehaviour
 
         if (keyBindingsFixed && tileSetFixed)
         {
-            if (entityStatsFixed == false)
+            if (entityStatsFixed)
             {
                 if (entityStatsPromptPlayed == false)
                 {
