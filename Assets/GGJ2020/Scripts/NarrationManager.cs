@@ -276,7 +276,7 @@ public class NarrationManager : MonoBehaviour
                 walkThruWallAttempts++;
                 if (logging) Debug.Log($"Walk Through Wall Attempts: {walkThruWallAttempts}");
 
-                if (walkThruWallAttempts >= 3)
+                if (narratorAudioSource.isPlaying == false && walkThruWallAttempts >= 3)
                 {
                     Util.ExecuteAfterTime(this, 1.0f, PlayTileSetBroken);
                     tileSetPromptPlayed = true;
