@@ -1,8 +1,21 @@
 <html>
     <head>
-        <title>keklul</title>
+        <title>WIP Walkthrough</title>
     </head>
     <body>
-        I am a body
+        Work In Progress is a game about a fake Global Game Jam 2020 game called No-Scoped. The player is tasked with fixing the fake game in order to "win".
+        
+        <h1>Walkthrough</h1>
+        <ul>
+            <li>Open the game for the first time to hear the narration. Try moving up/down & find that you can't. Listen to the narration if desired, then quit the game.</li>
+            <li>Open the file named data.data (located next to the Exe) in any text editor. Locate the [Keybindings] section. Fill in the missing entries (i.e. "Up=w" and "Down=s".)</li>
+            <li>Open the game again and now you can move up/down! However, you still cannot get to the flag. Listen to narration & quit the game.</li>
+            <li>Open the file named Assets/Images/Wall.png in any image editor. Draw something and save it. <b>Make sure to save it over the old Wall.png!</b></li>
+            <li>Open the game. You can see the walls now! But you'll still get killed by the monster guarding the flag.</li>
+            <li>Open data.data again and locate the [EntityAttributes] section, about 1/3 of the way down the file. Edit Player_Damage to be greater than 0 and Monster_Health to be 0.</li>
+            <li>Open the game again. You can now kill the monster by running into him. Head to the flag! ... But now your game crashes when you get to the flag.</li>
+            <li>Open the file called crash.log. In it, you'll find a URL for a file. Download that file and place it at Assets/Victory.video.</li>
+            <li>Open the game again. Get to the flag as you did before. Enjoy your reward.</li>
+        </ul>
     </body>
 </html>
