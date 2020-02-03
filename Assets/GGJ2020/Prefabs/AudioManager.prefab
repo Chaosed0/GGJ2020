@@ -310,6 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerActionAudioSource: {fileID: 4247460462365106328}
   enemyActionAudioSource: {fileID: 2038970724}
+  youDiedSource: {fileID: 1008764683}
   wallHit:
   - {fileID: 8300000, guid: a4859d0f5da75e54d929d0cd8d92b5f8, type: 3}
   - {fileID: 8300000, guid: f4c8f265b16e726479e737e6aa56114f, type: 3}

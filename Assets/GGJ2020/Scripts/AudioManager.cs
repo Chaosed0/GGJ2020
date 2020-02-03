@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource playerActionAudioSource;
 
     public AudioSource enemyActionAudioSource;
+    public AudioSource youDiedSource;
 
     public AudioClip[] wallHit;
     public AudioClip[] playerMoveShort;
@@ -139,6 +140,7 @@ public class AudioManager : MonoBehaviour
     private void HandlePlayerDeath()
     {
         PlayRandom(playerActionAudioSource, playerDeath);
+        youDiedSource.Play();
     }
 
     private void OnDestroy()

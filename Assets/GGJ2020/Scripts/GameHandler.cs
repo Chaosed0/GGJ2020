@@ -7,9 +7,6 @@ public class GameHandler : MonoBehaviour
     [SerializeField]
     private GameObject youDied = null;
 
-    [SerializeField]
-    private AudioSource diedSource = null;
-
     private Status playerStatus = null;
 
     private void Start()
@@ -33,7 +30,6 @@ public class GameHandler : MonoBehaviour
     {
         youDied.GetComponent<Canvas>().enabled = true;
         youDied.GetComponent<Animator>().enabled = true;
-        diedSource.Play();
         yield return new WaitForSeconds(5f);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
